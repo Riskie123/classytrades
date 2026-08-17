@@ -1,99 +1,134 @@
-<!doctype html>
-<html lang="en" dir="auto" class="light">
-    <head>
-        <!-- Google Tag Manager -->
-        <script>
-            (function (w, d, s, l, i) {
-                w[l] = w[l] || [];
-                w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
-                var f = d.getElementsByTagName(s)[0],
-                    j = d.createElement(s),
-                    dl = l != 'dataLayer' ? '&l=' + l : '';
-                j.async = true;
-                j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
-                f.parentNode.insertBefore(j, f);
-            })(window, document, 'script', 'dataLayer', 'GTM-KV9538TF');
-        </script>
-        <!-- End Google Tag Manager -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClassyTrades - Trading Analysis Tool</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-text">HE</span>
+                <span class="brand-name">ClassyTrades</span>
+            </div>
+            <nav class="nav-links">
+                <button class="nav-btn active">TradingView</button>
+                <button class="nav-btn">DCircles</button>
+                <button class="nav-btn">Pro Hedge</button>
+            </nav>
+            <div class="auth-buttons">
+                <button class="btn-login">Log in</button>
+                <button class="btn-signup">Sign up</button>
+            </div>
+        </header>
 
-        <meta charset="UTF-8" />
-        <link rel="icon" type="image/svg+xml" href="<%= assetPrefix %>/deriv-logo.svg" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-        <meta name="title" content="Automate Your Trades | Deriv Bot" />
-        <meta
-            name="description"
-            content="Import your current bot or learn how to create a trading bot from scratch with our detailed guides, FAQs, and tutorials. Start with a quick strategy!"
-        />
-        <meta property="og:title" content="Deriv Bot" />
-        <meta
-            property="og:description"
-            content="Import your current bot or learn how to create a trading bot from scratch with our detailed guides, FAQs, and tutorials. Start with a quick strategy!"
-        />
-        <title>Automate Your Trades | Deriv Bot</title>
-        <style>
-            :root {
-                font-size: 62.5%;
-            }
-        </style>
-    </head>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Current Price Section -->
+            <section class="price-section">
+                <div class="price-container">
+                    <div class="price-display">
+                        <span class="current-price" id="currentPrice">4832.943</span>
+                        <span class="price-label">CURRENT PRICE</span>
+                    </div>
+                    <select class="market-selector" id="marketSelector">
+                        <option>Volatility 10 Index</option>
+                        <option>Volatility 25 Index</option>
+                        <option>Volatility 50 Index</option>
+                        <option>Volatility 75 Index</option>
+                        <option>Volatility 100 Index</option>
+                    </select>
+                </div>
+            </section>
 
-    <body class="body theme theme--light">
-        <!-- Google Tag Manager (noscript) -->
-        <noscript
-            ><iframe
-                src="https://www.googletagmanager.com/ns.html?id=GTM-KV9538TF"
-                height="0"
-                width="0"
-                style="display: none; visibility: hidden"
-            ></iframe
-        ></noscript>
-        <!-- End Google Tag Manager (noscript) -->
+            <!-- Digit Distribution Section -->
+            <section class="analysis-section">
+                <h2 class="section-title">DIGIT DISTRIBUTION</h2>
+                <div class="digit-grid" id="digitGrid">
+                    <!-- Digits 0-9 will be populated here -->
+                </div>
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <span class="stat-label">HIGHEST</span>
+                        <span class="stat-value highest" id="highestStat">11.00%</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">2ND</span>
+                        <span class="stat-value" id="secondStat">10.80%</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">LOWEST</span>
+                        <span class="stat-value lowest" id="lowestStat">9.40%</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">2ND LOW</span>
+                        <span class="stat-value" id="secondLowest">9.40%</span>
+                    </div>
+                </div>
+            </section>
 
-        <div id="modal_root" class="modal-root"></div>
-        <div id="popup_root" class="popup-root"></div>
-        <div id="root"></div>
-        <!-- LiveChat script -->
-        <script type="text/javascript" defer>
-            window.__lc = window.__lc || {};
-            window.__lc.license = 12049137;
-            window.__lc.asyncInit = true;
-            (function (n, t, c) {
-                function i(n) {
-                    return e._h ? e._h.apply(null, n) : e._q.push(n);
-                }
-                var e = {
-                    _q: [],
-                    _h: null,
-                    _v: '2.0',
-                    on: function () {
-                        i(['on', c.call(arguments)]);
-                    },
-                    once: function () {
-                        i(['once', c.call(arguments)]);
-                    },
-                    off: function () {
-                        i(['off', c.call(arguments)]);
-                    },
-                    get: function () {
-                        if (!e._h) throw new Error('[LiveChatWidget] You can’t use getters before load.');
-                        return i(['get', c.call(arguments)]);
-                    },
-                    call: function () {
-                        i(['call', c.call(arguments)]);
-                    },
-                    init: function () {
-                        setTimeout(() => {
-                            var n = t.createElement('script');
-                            ((n.async = !0),
-                                (n.type = 'text/javascript'),
-                                (n.src = 'https://cdn.livechatinc.com/tracking.js'),
-                                t.head.appendChild(n));
-                        }, 3000);
-                    },
-                };
-                (!n.__lc.asyncInit && e.init(), (n.LiveChatWidget = n.LiveChatWidget || e));
-            })(window, document, [].slice);
-        </script>
-        <!-- End LiveChat script -->
-    </body>
+            <!-- Pattern Analysis Section -->
+            <section class="analysis-section">
+                <h2 class="section-title">PATTERN ANALYSIS</h2>
+                <div class="pattern-buttons">
+                    <button class="pattern-btn active" data-pattern="even-odd">EVEN/ODD</button>
+                    <button class="pattern-btn" data-pattern="over-under">OVER/UNDER</button>
+                </div>
+                <div class="pattern-results" id="patternResults">
+                    <div class="pattern-card even">
+                        <span class="pattern-value">47.8%</span>
+                        <span class="pattern-label">EVEN</span>
+                    </div>
+                    <div class="pattern-card odd">
+                        <span class="pattern-value">52.2%</span>
+                        <span class="pattern-label">ODD</span>
+                    </div>
+                </div>
+                <div class="pattern-history" id="patternHistory">
+                    <!-- Pattern history will be populated here -->
+                </div>
+            </section>
+
+            <!-- Market Movement Section -->
+            <section class="analysis-section">
+                <h2 class="section-title">MARKET MOVEMENT</h2>
+                <div class="bot-status">
+                    <button class="btn-run">
+                        <span class="play-icon">▶</span> Run
+                    </button>
+                    <div class="status-info">
+                        <span class="status-text" id="botStatus">Bot is not running</span>
+                        <div class="status-indicator"></div>
+                    </div>
+                </div>
+                <canvas id="movementChart" class="chart-container"></canvas>
+            </section>
+
+            <!-- Settings Section -->
+            <section class="settings-section">
+                <h2 class="section-title">SETTINGS</h2>
+                <div class="settings-grid">
+                    <div class="setting-item">
+                        <label>Tick Count</label>
+                        <input type="number" id="tickCount" value="100" min="10" max="1000">
+                    </div>
+                    <div class="setting-item">
+                        <label>Update Interval (ms)</label>
+                        <input type="number" id="updateInterval" value="1000" min="100" max="5000">
+                    </div>
+                    <div class="setting-item">
+                        <label>Auto Refresh</label>
+                        <input type="checkbox" id="autoRefresh" checked>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="app.js"></script>
+</body>
 </html>
