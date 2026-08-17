@@ -5,6 +5,7 @@ import { AnalysisService, AnalysisResult } from '../../services/analysis';
 
 type Props = {
   symbol?: string; // e.g. 'R_10' or 'R_100'
+  appId?: string; // optional override for Deriv app_id
 };
 
 const gridCellStyle: React.CSSProperties = {
@@ -28,13 +29,17 @@ const containerStyle: React.CSSProperties = {
   fontFamily: 'Inter, system-ui, Arial',
 };
 
-export const AnalysisTool: React.FC<Props> = ({ symbol = 'R_100' }) => {
+export const AnalysisTool: React.FC<Props> = ({ symbol = 'R_100', appId }) => {
   const svcRef = useRef<AnalysisService | null>(null);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [connected, setConnected] = useState(false);
 
   useEffect(() => {
-    const svc = new AnalysisService({ bufferSize: 200 });
+    // prefer explicit prop, else read env var at build time
+    const envAppId = typeof process !== 'undefined' ? process.env?.NEXT_PUBLIC_DERIV_APP_ID : undefined;
+    const idToUse = appId ?? envAppId ?? '1089';
+
+    const svc = new AnalysisService({ bufferSize: 200, appId: idToUse });
     svcRef.current = svc;
 
     svc.connect(symbol, (res) => {
@@ -46,7 +51,7 @@ export const AnalysisTool: React.FC<Props> = ({ symbol = 'R_100' }) => {
       svc.disconnect();
       setConnected(false);
     };
-  }, [symbol]);
+  }, [symbol, appId]);
 
   return (
     <div style={containerStyle}>
@@ -106,7 +111,7 @@ export const AnalysisTool: React.FC<Props> = ({ symbol = 'R_100' }) => {
       </div>
 
       <div style={{ marginTop: 12, fontSize: 12, color: '#90a4ae' }}>
-        Note: This component connects to Deriv's public tick websocket for live quotes. App ID used is the example app_id; replace with your own app_id in AnalysisService constructor if you have one.
+        Note: This component connects to Deriv's public tick websocket for live quotes. App ID used is the example app_id or NEXT_PUBLIC_DERIV_APP_ID; replace with your own app_id in Vercel environment variables for production.
       </div>
     </div>
   );

@@ -21,7 +21,7 @@ export type AnalysisUpdateHandler = (result: AnalysisResult) => void;
 
 export interface AnalysisServiceOptions {
   bufferSize?: number; // how many recent ticks to keep
-  appId?: string; // Deriv app_id (optional). Default uses 1089 which works for public data in examples.
+  appId?: string; // Deriv app_id (optional). Default uses NEXT_PUBLIC_DERIV_APP_ID or 1089 which works for public data in examples.
 }
 
 export class AnalysisService {
@@ -34,7 +34,9 @@ export class AnalysisService {
 
   constructor(options?: AnalysisServiceOptions) {
     this.bufferSize = options?.bufferSize ?? 200;
-    this.appId = options?.appId ?? '1089';
+    // Prefer environment variable NEXT_PUBLIC_DERIV_APP_ID if available, then options.appId, then example 1089
+    const envAppId = typeof process !== 'undefined' && (process.env?.NEXT_PUBLIC_DERIV_APP_ID || (process as any).env?.NEXT_PUBLIC_DERIV_APP_ID);
+    this.appId = options?.appId ?? envAppId ?? '1089';
   }
 
   connect(symbol: string, onUpdate: AnalysisUpdateHandler) {
@@ -61,7 +63,6 @@ export class AnalysisService {
         }
       } catch (err) {
         // ignore parse errors
-        // console.warn('parse error', err);
       }
     };
 
@@ -77,7 +78,6 @@ export class AnalysisService {
   disconnect() {
     if (this.ws) {
       try {
-        // unsubscribe by closing socket; Deriv v3 doesn't require explicit unsubscribe for a single connection
         this.ws.close();
       } catch (e) {
         // ignore

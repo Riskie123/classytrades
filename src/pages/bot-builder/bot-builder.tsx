@@ -1,3 +1,4 @@
+// src/pages/bot-builder/bot-builder.tsx
 // @ts-nocheck — vendored bot code with known upstream type gaps; see AGENTS.md
 import React from 'react';
 import classNames from 'classnames';
@@ -13,6 +14,7 @@ import SaveModal from '../dashboard/bot-list/save-modal';
 import BotBuilderTourHandler from '../tutorials/dbot-tours/bot-builder-tour';
 import QuickStrategy1 from './quick-strategy';
 import WorkspaceWrapper from './workspace-wrapper';
+import AnalysisTool from '../../components/AnalysisTool';
 
 const BotBuilder = observer(() => {
     const { dashboard, app, run_panel, toolbar, quick_strategy, blockly_store } = useStore();
@@ -121,6 +123,9 @@ const BotBuilder = observer(() => {
             >
                 <div id='scratch_div' ref={el_ref}>
                     <WorkspaceWrapper />
+                    <div style={{ marginTop: 16 }}>
+                        <AnalysisTool symbol="R_100" />
+                    </div>
                 </div>
             </div>
             {active_tab === 1 && <BotBuilderTourHandler is_mobile={!isDesktop} />}
